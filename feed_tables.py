@@ -21,7 +21,7 @@ DATASET_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 csv_files = {
     "symptoms.csv": "symptoms",
     "diseases.csv": "diseases",
-    # "treatment_FR.csv": "treatment_FR",
+    "treatment_FR.csv": "treatment_FR",
 }
 
 def table_exists(conn, table_name):
