@@ -22,23 +22,24 @@ csv_files = {
     "symptoms.csv": "symptoms",
     "diseases.csv": "diseases",
     "treatment_FR.csv": "treatment_FR",
+    "symptoms_with_synonyms_EN.csv": "symptoms_synonyms_EN"
 }
 
 def table_exists(conn, table_name):
     with conn.cursor() as cursor:
-        cursor.execute(f"""
+        cursor.execute("""
             SELECT EXISTS (
                 SELECT 1 FROM information_schema.tables
                 WHERE table_name = %s
             )
-        """, (table_name,))
+        """, (table_name.lower(),))   # ✅ force en minuscule
         return cursor.fetchone()[0]
 
 def drop_table(conn, table_name):
-    if table_exists(conn, table_name):
-        with conn.cursor() as cursor:
-            cursor.execute(f"DROP TABLE IF EXISTS {table_name} CASCADE;")
-        print(f"✅ Table '{table_name}' supprimée avec succès.")
+    with conn.cursor() as cursor:
+        cursor.execute(f'DROP TABLE IF EXISTS "{table_name.lower()}" CASCADE;')  
+    print(f"✅ Table '{table_name}' supprimée avec succès.")
+
 
 def get_column_lengths(df):
     return {col: df[col].apply(lambda x: len(str(x))).max() for col in df.columns}
