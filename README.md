@@ -1,33 +1,38 @@
 <div align="center">
-  <h1>NOVA DB</h1>
-  <p>Base de données et API de reference pour les symptomes, maladies et traitements utilises par la plateforme de sante NOVA.</p>
+  <img src=".github/assets/banner.png" alt="NOVA_DB banner" width="100%" />
+
+  <h1>NOVA_DB</h1>
+
+  <p>
+    Reference database and API for symptoms, diseases and treatments used by the NOVA health platform.
+  </p>
 
 <p>
-  <img src="https://img.shields.io/github/last-commit/BaditSad/NOVA_DB" alt="last update" />
-  <img src="https://img.shields.io/github/languages/top/BaditSad/NOVA_DB" alt="top language" />
+  <img src="https://img.shields.io/github/last-commit/nova-health-platform/NOVA_DB" alt="last update" />
+  <img src="https://img.shields.io/github/languages/top/nova-health-platform/NOVA_DB" alt="top language" />
 </p>
 </div>
 
 <br />
 
-# Table des matieres
+## :notebook_with_decorative_cover: Table of Contents
 
-- [A propos](#a-propos)
-  * [Stack technique](#stack-technique)
-  * [Fonctionnalites](#fonctionnalites)
-  * [Variables d'environnement](#variables-denvironnement)
-- [Demarrage](#demarrage)
-  * [Prerequis](#prerequis)
-  * [Installation](#installation)
-  * [Lancer en local](#lancer-en-local)
-- [Depots lies](#depots-lies)
-- [Contact](#contact)
+- [About](#star2-about)
+  * [Tech Stack](#space_invader-tech-stack)
+  * [Features](#dart-features)
+  * [Environment Variables](#key-environment-variables)
+- [Getting Started](#toolbox-getting-started)
+  * [Prerequisites](#bangbang-prerequisites)
+  * [Installation](#gear-installation)
+  * [Run Locally](#running-run-locally)
+- [Related Repositories](#link-related-repositories)
+- [Contact](#handshake-contact)
 
-## A propos
+## :star2: About
 
-NOVA DB est le service qui porte les donnees medicales de reference de NOVA : symptomes, maladies, synonymes de symptomes et traitements. Un script d'import (`feed_tables.py`) charge des fichiers CSV dans une base PostgreSQL, puis une petite API Flask (`server.py`) expose ces donnees en lecture pour les autres services NOVA (notamment le module d'analyse ML qui entraine ses modeles a partir de ces tables).
+NOVA_DB is the service that holds the reference medical data for NOVA: symptoms, diseases, symptom synonyms and treatments. An import script (`feed_tables.py`) loads CSV files into a PostgreSQL database, then a small Flask API (`server.py`) exposes this data for read access to the other NOVA services (notably the ML analysis module, which trains its models from these tables).
 
-### Stack technique
+### :space_invader: Tech Stack
 
 <details>
   <summary>Backend</summary>
@@ -39,10 +44,10 @@ NOVA DB est le service qui porte les donnees medicales de reference de NOVA : sy
 </details>
 
 <details>
-  <summary>Base de donnees</summary>
+  <summary>Database</summary>
   <ul>
     <li><a href="https://www.postgresql.org/">PostgreSQL</a></li>
-    <li><a href="https://pandas.pydata.org/">Pandas</a> (import des CSV vers les tables)</li>
+    <li><a href="https://pandas.pydata.org/">Pandas</a> (CSV import into tables)</li>
   </ul>
 </details>
 
@@ -53,17 +58,17 @@ NOVA DB est le service qui porte les donnees medicales de reference de NOVA : sy
   </ul>
 </details>
 
-### Fonctionnalites
+### :dart: Features
 
-- Import automatique de fichiers CSV (symptomes, maladies, traitements FR, symptomes avec synonymes EN) vers des tables PostgreSQL, avec recreation des tables a chaque import
-- API `GET /symptoms` : liste des symptomes references
-- API `GET /symptoms/synonyms` : liste des couples symptome/synonymes
-- API `GET /symptoms/<symptom>/synonyms` : synonymes d'un symptome precis
-- Conteneurisation via Docker pour un deploiement simple du service
+- Automatic import of CSV files (symptoms, diseases, treatments in French, symptoms with English synonyms) into PostgreSQL tables, recreating the tables on each import
+- `GET /symptoms`: list of referenced symptoms
+- `GET /symptoms/synonyms`: list of symptom/synonym pairs
+- `GET /symptoms/<symptom>/synonyms`: synonyms for a given symptom
+- Containerized with Docker for simple deployment
 
-### Variables d'environnement
+### :key: Environment Variables
 
-Le service lit sa configuration PostgreSQL depuis un fichier `.env` (non versionne) :
+The service reads its PostgreSQL configuration from a `.env` file (not versioned):
 
 `DB_HOST`
 
@@ -75,52 +80,53 @@ Le service lit sa configuration PostgreSQL depuis un fichier `.env` (non version
 
 `DB_PORT`
 
-## Demarrage
+## :toolbox: Getting Started
 
-### Prerequis
+### :bangbang: Prerequisites
 
-Python 3.9 ou une image Docker, ainsi qu'une base PostgreSQL accessible.
+Python 3.9 or a Docker image, plus an accessible PostgreSQL database.
 
-### Installation
+### :gear: Installation
 
 ```bash
 pip install flask psycopg2-binary python-dotenv pandas
 ```
 
-### Lancer en local
+### :running: Run Locally
 
-Importer les donnees dans PostgreSQL :
+Import the data into PostgreSQL:
 
 ```bash
 python feed_tables.py
 ```
 
-Demarrer l'API :
+Start the API:
 
 ```bash
 python server.py
 ```
 
-Ou via Docker :
+Or with Docker:
 
 ```bash
 docker build -t nova-db .
 docker run -p 5001:5001 --env-file .env nova-db
 ```
 
-## Depots lies
+## :link: Related Repositories
 
-NOVA DB fait partie de l'ecosysteme de la plateforme de sante NOVA, reparti sur plusieurs depots :
+NOVA_DB is part of the NOVA health platform ecosystem, split across several repositories:
 
-- [NOVA_WEB](https://github.com/BaditSad/NOVA_WEB) : frontend web de la plateforme
-- [NOVA_API](https://github.com/BaditSad/NOVA_API) : API principale de NOVA
-- [NOVA_LOGS_DB](https://github.com/BaditSad/NOVA_LOGS_DB) : stockage des logs applicatifs
-- [NOVA_ML_ANALYSIS](https://github.com/BaditSad/NOVA_ML_ANALYSIS) : modele ML d'analyse de symptomes, entraine a partir des donnees de ce depot
-- [NOVA_ML_PREPROD](https://github.com/BaditSad/NOVA_ML_PREPROD) : environnement d'entrainement/preproduction des modeles ML
-- [NOVA_ML_MENTAL_HEALTH](https://github.com/BaditSad/NOVA_ML_MENTAL_HEALTH) : module de suivi psychologique
-- [NOVA_ML_SCAN_BODY](https://github.com/BaditSad/NOVA_ML_SCAN_BODY) : module de check-up dermatologique par computer vision
+- [NOVA_WEB](https://github.com/nova-health-platform/NOVA_WEB): web frontend of the platform
+- [NOVA_API](https://github.com/nova-health-platform/NOVA_API): main NOVA API
+- [NOVA_LOGS_DB](https://github.com/nova-health-platform/NOVA_LOGS_DB): application log storage
+- [NOVA_ML_ANALYSIS](https://github.com/nova-health-platform/NOVA_ML_ANALYSIS): symptom analysis ML model, trained from this repository's data
+- [NOVA_ML_PREPROD](https://github.com/nova-health-platform/NOVA_ML_PREPROD): ML model training and staging environment
+- [NOVA_ML_MENTAL_HEALTH](https://github.com/nova-health-platform/NOVA_ML_MENTAL_HEALTH): psychological monitoring module
+- [NOVA_ML_SCAN_BODY](https://github.com/nova-health-platform/NOVA_ML_SCAN_BODY): computer vision dermatological check-up module
+- [NOVA-CORE](https://github.com/nova-health-platform/NOVA-CORE): architecture overview and local orchestration for the whole platform
 
-## Contact
+## :handshake: Contact
 
 Brieuc Dumortier - [LinkedIn](https://www.linkedin.com/in/dumortier-brieuc/) - dumortier.contact@gmail.com
 
